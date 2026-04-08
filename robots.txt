@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /maria
+Disallow: /maria.html
+Disallow: /calendario
+Disallow: /calendario.html
+Disallow: /gracias.html
+Disallow: /encuesta.html
+
+Sitemap: https://genesis-experiences.com/sitemap.xml

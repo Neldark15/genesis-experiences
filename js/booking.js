@@ -132,11 +132,22 @@ function checkAvailability(showAlert){
         lastAvailCheck=checkKey;return false;
     }
 
+    // Check if PREVIOUS day has late checkout (6PM) — blocks this day's check-in
+    const prevDate=new Date(ci+'T12:00:00');prevDate.setDate(prevDate.getDate()-1);
+    const prevDs=prevDate.toISOString().split('T')[0];
+    const prevLateCheckout=coData.some(c=>c.date===prevDs&&c.type==='checkout'&&(c.lateCheckout||String(c.horaCheckout||'').indexOf('6:00 PM')!==-1||String(c.horaCheckout||'').indexOf('6PM')!==-1));
+    if(prevLateCheckout){
+        const m='El día anterior hay una salida extendida hasta las 6:00 PM. No se puede hacer check-in a las 3:00 PM. Elegí otra fecha.';
+        errMsg.textContent=m;errDiv.style.display='block';
+        if(showAlert&&lastAvailCheck!==checkKey)showToast('Fecha bloqueada',m,'fas fa-clock');
+        lastAvailCheck=checkKey;return false;
+    }
+
     // Check if checkin date has a transition (checkout or checkin of another booking)
     const ciTransitions=coData.filter(c=>c.date===ci);
     if(ciTransitions.length>0){
-        // Detect late checkout: flag OR horaCheckout contains 6PM/18/19
-        const hasLate=ciTransitions.some(c=>c.lateCheckout||((String(c.horaCheckout||'').indexOf('6')!==-1||String(c.horaCheckout||'').indexOf('18')!==-1||String(c.horaCheckout||'').indexOf('19')!==-1)&&c.type==='checkout'));
+        // Detect late checkout: flag OR horaCheckout contains "6:00 PM" or "6PM"
+        const hasLate=ciTransitions.some(c=>c.lateCheckout||((String(c.horaCheckout||'').indexOf('6:00 PM')!==-1||String(c.horaCheckout||'').indexOf('6PM')!==-1)&&c.type==='checkout'));
         if(hasLate){
             const m=window.t('avail.late');
             errMsg.textContent=m;errDiv.style.display='block';
@@ -369,7 +380,14 @@ function handleBooking(e){
     if(API_URL){
         const ciudad=document.getElementById('formCity')?document.getElementById('formCity').value:'';
         const comoNosConocio=document.getElementById('formSource')?document.getElementById('formSource').value:'';
-        fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({_ts:Date.now(),action:'booking',propiedad:pv,tipo:tp.value,checkin:ci,checkout:tp.value==='noche'?co:'',huespedes:g,mascotas:pets,total:tot,anticipo:dep,nombre:nm,dui,telefono:ph,email:em,notas:msg,horaCheckin:ciTime,horaCheckout:coTime,cambioHorario:schedExtra>0,personasExtra:extraGuests,quintaHabitacion:extraRoom,ciudad,como_nos_conocio:comoNosConocio})}).then(r=>r.json()).then(d=>{if(d.success){fetchAvailability();showBookingSuccess(d.id,pn,ci,co,tot,dep);}}).catch(er=>console.log('Backend:',er));
+        // Encodear tipo de cambio de horario al final de notas con marcador
+        let notasConMarca=msg||'';
+        const chEntrada=ciTime==='8:00 AM';
+        const chSalida=coTime==='6:00 PM';
+        if(chEntrada&&chSalida)notasConMarca=(notasConMarca?notasConMarca+' ':'')+'##CHB##';
+        else if(chEntrada)notasConMarca=(notasConMarca?notasConMarca+' ':'')+'##CHE##';
+        else if(chSalida)notasConMarca=(notasConMarca?notasConMarca+' ':'')+'##CHS##';
+        fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({_ts:Date.now(),action:'booking',propiedad:pv,tipo:tp.value,checkin:ci,checkout:tp.value==='noche'?co:'',huespedes:g,mascotas:pets,total:tot,anticipo:dep,nombre:nm,dui,telefono:ph,email:em,notas:notasConMarca,horaCheckin:ciTime,horaCheckout:coTime,cambioHorario:schedExtra>0,personasExtra:extraGuests,quintaHabitacion:extraRoom,ciudad,como_nos_conocio:comoNosConocio})}).then(r=>r.json()).then(d=>{if(d.success){fetchAvailability();showBookingSuccess(d.id,pn,ci,co,tot,dep);}}).catch(er=>console.log('Backend:',er));
     }
     let t=`*🏝️ Solicitud de Reserva — Genesis Experience*\n\n📍 *Propiedad:* ${pn}\n📋 *Tipo:* ${tn}\n📅 *Fecha:* ${ci}`;
     if(tp.value==='noche'&&co)t+=` → ${co}`;

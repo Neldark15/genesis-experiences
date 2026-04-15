@@ -96,7 +96,11 @@ function renderSingleMonth(year,month,container){
             const hasCheckout=allTrans.some(c=>c.type==='checkout'&&!c.lateCheckout);
             const hasCheckin=allTrans.some(c=>c.type==='checkin');
             // Detect late checkout: lateCheckout flag OR horaCheckout contains 6PM
-            const hasLate=allTrans.some(c=>c.lateCheckout||((String(c.horaCheckout||'').indexOf('6')!==-1||String(c.horaCheckout||'').indexOf('18')!==-1||String(c.horaCheckout||'').indexOf('19')!==-1)&&c.type==='checkout'));
+            const hasLate=allTrans.some(c=>c.lateCheckout||((String(c.horaCheckout||'').indexOf('6:00 PM')!==-1||String(c.horaCheckout||'').indexOf('6PM')!==-1)&&c.type==='checkout'));
+            // Check if PREVIOUS day had late checkout — that blocks this day's checkin
+            const prevD=new Date(year,month,d-1);
+            const prevDs=`${prevD.getFullYear()}-${String(prevD.getMonth()+1).padStart(2,'0')}-${String(prevD.getDate()).padStart(2,'0')}`;
+            const prevHasLate=(checkoutDatesData[calProperty]||[]).some(c=>c.date===prevDs&&(c.lateCheckout||((String(c.horaCheckout||'').indexOf('6:00 PM')!==-1||String(c.horaCheckout||'').indexOf('6PM')!==-1)))&&c.type==='checkout');
             const nextD=new Date(year,month,d+1);
             const nextDs=`${nextD.getFullYear()}-${String(nextD.getMonth()+1).padStart(2,'0')}-${String(nextD.getDate()).padStart(2,'0')}`;
             const nextBooked=bookedDates[calProperty]&&bookedDates[calProperty].includes(nextDs);
@@ -149,6 +153,12 @@ function renderSingleMonth(year,month,container){
                     tip.innerHTML='<i class="fas fa-sign-in-alt"></i> '+t('cal.tip.checkin');
                     e.appendChild(tip);
                 }
+            }else if(prevHasLate){
+                // Día anterior tiene late checkout hasta 6PM → bloquear este día para check-in
+                e.classList.add('booked');
+                const tip=document.createElement('div');tip.className='cal-tip';
+                tip.innerHTML='<i class="fas fa-clock"></i> Bloqueado: salida extendida del día anterior hasta 6PM';
+                e.appendChild(tip);
             }else{
                 e.classList.add('available');
                 e.style.cursor='pointer';

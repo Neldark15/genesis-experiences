@@ -979,9 +979,18 @@
             .page-section{padding:14px;}
             .book-layout{grid-template-columns:1fr;}
             .prop-cards-row{grid-template-columns:1fr;}
-            .prop-card-home{height:180px;}
-            .home-photos{grid-template-columns:repeat(3,1fr);}
-            .home-photo{height:90px;}
+            .prop-card-home{height:220px;}
+            /* Mobile photo carousel */
+            .home-photos{
+                display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+                -webkit-overflow-scrolling:touch;gap:10px;padding-bottom:8px;
+                scrollbar-width:none;margin-bottom:20px;
+            }
+            .home-photos::-webkit-scrollbar{display:none;}
+            .home-photo{
+                flex:0 0 72%;scroll-snap-align:start;height:160px;
+                border-radius:var(--radius-md);
+            }
             .quick-row{grid-template-columns:1fr 1fr;gap:10px;}
             .quick-item{padding:12px;}
             .prop-gallery{height:240px;}
@@ -1003,10 +1012,9 @@
             .home-welcome p{font-size:0.82rem;}
         }
         @media(max-width:600px){
-            .home-photos{grid-template-columns:repeat(2,1fr);}
-            .home-photo{height:85px;}
+            .home-photo{flex:0 0 78%;height:150px;}
             .prop-gallery{height:200px;}
-            .prop-card-home{height:160px;}
+            .prop-card-home{height:200px;}
             .prop-card-overlay h3{font-size:0.95rem;}
             .prop-card-overlay p{font-size:0.7rem;}
         }
@@ -1031,9 +1039,8 @@
             .hero-subtitle{font-size:0.82rem;}
         }
         @media(max-width:400px){
-            .prop-card-home{height:140px;}
-            .home-photos{grid-template-columns:repeat(2,1fr);}
-            .home-photo{height:75px;}
+            .prop-card-home{height:160px;}
+            .home-photo{flex:0 0 82%;height:130px;}
             .prop-header{gap:14px;}
             .quick-row{grid-template-columns:1fr 1fr;gap:6px;}
             .packages-grid{grid-template-columns:1fr;gap:8px;}

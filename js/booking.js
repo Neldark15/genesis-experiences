@@ -387,7 +387,9 @@ function handleBooking(e){
         if(chEntrada&&chSalida)notasConMarca=(notasConMarca?notasConMarca+' ':'')+'##CHB##';
         else if(chEntrada)notasConMarca=(notasConMarca?notasConMarca+' ':'')+'##CHE##';
         else if(chSalida)notasConMarca=(notasConMarca?notasConMarca+' ':'')+'##CHS##';
-        fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({_ts:Date.now(),action:'booking',propiedad:pv,tipo:tp.value,checkin:ci,checkout:tp.value==='noche'?co:'',huespedes:g,mascotas:pets,total:tot,anticipo:dep,nombre:nm,dui,telefono:ph,email:em,notas:notasConMarca,horaCheckin:ciTime,horaCheckout:coTime,cambioHorario:schedExtra>0,personasExtra:extraGuests,quintaHabitacion:extraRoom,ciudad,como_nos_conocio:comoNosConocio})}).then(r=>r.json()).then(d=>{if(d.success){fetchAvailability();showBookingSuccess(d.id,pn,ci,co,tot,dep);}}).catch(er=>console.log('Backend:',er));
+        // Prefix times with zero-width space to prevent Google Sheets auto-converting to Time type (fixes 1899-12-30 bug)
+        var safeCI='​'+ciTime, safeCO='​'+coTime;
+        fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({_ts:Date.now(),action:'booking',propiedad:pv,tipo:tp.value,checkin:ci,checkout:tp.value==='noche'?co:'',huespedes:g,mascotas:pets,total:tot,anticipo:dep,nombre:nm,dui,telefono:ph,email:em,notas:notasConMarca,horaCheckin:safeCI,horaCheckout:safeCO,cambioHorario:schedExtra>0,personasExtra:extraGuests,quintaHabitacion:extraRoom,ciudad,como_nos_conocio:comoNosConocio})}).then(r=>r.json()).then(d=>{if(d.success){fetchAvailability();showBookingSuccess(d.id,pn,ci,co,tot,dep);}}).catch(er=>console.log('Backend:',er));
     }
     let t=`*🏝️ Solicitud de Reserva — Genesis Experience*\n\n📍 *Propiedad:* ${pn}\n📋 *Tipo:* ${tn}\n📅 *Fecha:* ${ci}`;
     if(tp.value==='noche'&&co)t+=` → ${co}`;

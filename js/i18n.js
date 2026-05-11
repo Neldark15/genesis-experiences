@@ -137,7 +137,19 @@ const translations = {
         "am.lake":"Acceso al lago","am.view":"Vista panor\u00e1mica",
 
         // Map
-        "map.location":"Ubicaci\u00f3n"
+        "map.location":"Ubicaci\u00f3n",
+
+        // Policy
+        "policy.title":"Pol\u00edtica de Reservas y Cancelaciones",
+        "policy.item1":"Toda reserva se confirma \u00fanicamente con el pago anticipado del <strong>40% del monto total</strong>.",
+        "policy.item2":"Una vez realizado el pago, la fecha queda bloqueada de forma exclusiva para el cliente, por lo que <strong>no se realizan devoluciones ni reembolsos</strong> bajo ninguna circunstancia.",
+        "policy.item3":"En caso de que el cliente <strong>no se presente</strong> en la fecha y hora establecida, la reserva se considerar\u00e1 como utilizada y no habr\u00e1 reintegro.",
+        "policy.item4":"El cliente es responsable de <strong>corroborar y confirmar los datos</strong> de la reserva (fechas, horarios, n\u00famero de personas y monto) al momento de recibir el comprobante.",
+        "policy.accept.text":"He le\u00eddo y acepto las",
+        "policy.accept.link":"Pol\u00edticas de Reserva",
+        "policy.required.title":"Acepta las pol\u00edticas",
+        "policy.required.msg":"Debes leer y aceptar las Pol\u00edticas de Reserva antes de continuar.",
+        "footer.policy":"Pol\u00edtica de Reservas"
     },
     en: {
         // Navigation
@@ -274,7 +286,19 @@ const translations = {
         "am.lake":"Lake access","am.view":"Panoramic view",
 
         // Map
-        "map.location":"Location"
+        "map.location":"Location",
+
+        // Policy
+        "policy.title":"Reservation & Cancellation Policy",
+        "policy.item1":"All reservations are confirmed only with a <strong>40% advance payment</strong> of the total amount.",
+        "policy.item2":"Once payment is made, the date is exclusively blocked for the client, therefore <strong>no refunds will be issued</strong> under any circumstance.",
+        "policy.item3":"If the client <strong>does not show up</strong> on the established date and time, the reservation will be considered used and no refund will be given.",
+        "policy.item4":"The client is responsible for <strong>verifying and confirming the reservation details</strong> (dates, times, number of guests, and amount) upon receiving the confirmation.",
+        "policy.accept.text":"I have read and accept the",
+        "policy.accept.link":"Reservation Policy",
+        "policy.required.title":"Accept the policy",
+        "policy.required.msg":"You must read and accept the Reservation Policy before continuing.",
+        "footer.policy":"Reservation Policy"
     }
 };
 

@@ -350,6 +350,16 @@ function calcPrice(){
 function handleBooking(e){
     e.preventDefault();
 
+    // Validate policy acceptance
+    var policyCheck=document.getElementById('policyAccept');
+    if(policyCheck&&!policyCheck.checked){
+        showToast(window.t?window.t('policy.required.title'):'Acepta las políticas',
+                  window.t?window.t('policy.required.msg'):'Debes leer y aceptar las Políticas de Reserva antes de continuar.',
+                  'fas fa-file-contract');
+        scrollToPolicy();
+        return;
+    }
+
     // Validate availability
     if(!checkAvailability(true)){
         showToast('No disponible','No se puede completar la reserva. Hay un conflicto de disponibilidad con las fechas seleccionadas.','fas fa-calendar-times');
@@ -555,4 +565,28 @@ function checkVipCard(duiParam){
         .catch(function(){
             if(cardEl)cardEl.style.display='none';
         });
+}
+
+// ===== POLICY ACCEPTANCE =====
+function togglePolicyAccept(){
+    var cb=document.getElementById('policyAccept');
+    var btn=document.getElementById('btnBook');
+    if(!cb||!btn)return;
+    if(cb.checked){
+        btn.removeAttribute('disabled');
+        btn.classList.add('enabled');
+    }else{
+        btn.setAttribute('disabled','disabled');
+        btn.classList.remove('enabled');
+    }
+}
+
+function scrollToPolicy(ev){
+    if(ev&&ev.preventDefault)ev.preventDefault();
+    var banner=document.getElementById('policyBanner');
+    if(!banner)return false;
+    banner.scrollIntoView({behavior:'smooth',block:'start'});
+    banner.classList.add('flash');
+    setTimeout(function(){banner.classList.remove('flash');},1600);
+    return false;
 }

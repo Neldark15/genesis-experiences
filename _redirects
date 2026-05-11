@@ -1,0 +1,12 @@
+# Netlify redirects - SPA rewrites (status 200 = rewrite, keeps URL in browser)
+# Spanish routes → serve /index.html with full URL preserved
+/reservas         /index.html        200
+/disponibilidad   /index.html        200
+/ubicacion        /index.html        200
+/resenas          /index.html        200
+
+# English routes → serve /en/index.html
+/en/reservas         /en/index.html     200
+/en/disponibilidad   /en/index.html     200
+/en/ubicacion        /en/index.html     200
+/en/resenas          /en/index.html     200

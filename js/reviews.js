@@ -1,7 +1,7 @@
 // HOME PHOTOS
 function renderHomePhotos(){
     const p=PROPS[currentProp];
-    const photos=p.images.slice(1,7);
+    const photos=p.images.slice(1,5);
     document.getElementById('homePhotos').innerHTML=photos.map((img,i)=>`<div class="home-photo gcard" onclick="openLightbox(PROPS['${currentProp}'].images,${i+1})" style="cursor:zoom-in"><img src="${img}" alt="${p.name}" loading="lazy"></div>`).join('');
 }
 

@@ -170,7 +170,7 @@
         .sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;gap:4px;align-items:center;}
 
         /* ===== MAIN ===== */
-        .main{margin-left:76px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+        .main{margin-left:76px;flex:1;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;max-width:100vw;}
 
         /* ===== TOPBAR ===== */
         .topbar{
@@ -973,24 +973,17 @@
         }
         @media(max-width:768px){
             .sidebar{display:none;}
-            .main{margin-left:0;padding-bottom:64px;}
+            .main{margin-left:0;padding-bottom:64px;overflow-x:hidden;width:100%;}
             .mob-nav{display:block;}
-            .topbar{padding:0 14px;height:56px;}
-            .page-section{padding:14px;}
+            .topbar{padding:0 12px;height:56px;overflow:hidden;}
+            .topbar-left{min-width:0;overflow:hidden;}
+            .topbar-right{flex-shrink:0;}
+            .page-section{padding:12px;overflow-x:hidden;}
             .book-layout{grid-template-columns:1fr;}
             .prop-cards-row{grid-template-columns:1fr;}
-            .prop-card-home{height:220px;}
-            /* Mobile photo carousel */
-            .home-photos{
-                display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-                -webkit-overflow-scrolling:touch;gap:10px;padding-bottom:8px;
-                scrollbar-width:none;margin-bottom:20px;
-            }
-            .home-photos::-webkit-scrollbar{display:none;}
-            .home-photo{
-                flex:0 0 72%;scroll-snap-align:start;height:160px;
-                border-radius:var(--radius-md);
-            }
+            .prop-card-home{height:180px;}
+            .home-photos{grid-template-columns:repeat(3,1fr);}
+            .home-photo{height:90px;}
             .quick-row{grid-template-columns:1fr 1fr;gap:10px;}
             .quick-item{padding:12px;}
             .prop-gallery{height:240px;}
@@ -999,7 +992,7 @@
             .frow{grid-template-columns:1fr;}
             .map-frame{height:220px;}
             .prop-switch-btn{padding:6px 12px;font-size:0.76rem;}
-            .topbar-brand{font-size:0.95rem;}
+            .topbar-brand{font-size:0.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
             .wa-btn span.desk{display:none;}
             .cal-day{font-size:0.82rem;min-height:36px;}
             .cal-nav-btn{width:38px;height:38px;font-size:0.8rem;}
@@ -1010,43 +1003,83 @@
             .rev-header h2{font-size:1.1rem;}
             .cal-title{font-size:0.88rem;}
             .home-welcome p{font-size:0.82rem;}
+            .offers-scroll{gap:10px;padding-bottom:6px;}
+            .offer-card{min-width:200px;}
+            .price-summary{max-width:100%;width:100%;}
+            .footer-top{padding:12px 14px;}
+            .footer-bottom{padding:10px 14px;font-size:0.68rem;}
+            .midweek-card{padding:24px 16px;}
+            .vip-checker{padding:14px;}
         }
         @media(max-width:600px){
-            .home-photo{flex:0 0 78%;height:150px;}
+            .home-photos{grid-template-columns:repeat(2,1fr);}
+            .home-photo{height:85px;}
             .prop-gallery{height:200px;}
-            .prop-card-home{height:200px;}
+            .prop-card-home{height:160px;}
             .prop-card-overlay h3{font-size:0.95rem;}
             .prop-card-overlay p{font-size:0.7rem;}
+            .offer-card{min-width:180px;max-width:200px;}
         }
         @media(max-width:480px){
-            .topbar-brand{font-size:0.85rem;}
-            .prop-switch-btn{padding:5px 9px;font-size:0.72rem;}
-            .page-section{padding:10px;}
-            .cal-card{padding:8px;}
-            .form-card{padding:12px;}
-            .price-summary{padding:12px;max-width:100%;}
-            .quick-row{grid-template-columns:1fr 1fr;gap:8px;}
-            .quick-item{padding:10px;}
-            .quick-item i{font-size:1rem;margin-bottom:4px;}
-            .quick-item span{font-size:0.72rem;}
-            .cal-nav-btn{width:44px;height:44px;font-size:0.85rem;}
-            .cal-legend{gap:8px;}
-            .cal-legend-item{font-size:0.7rem;}
-            .cal-legend-dot{width:10px;height:10px;}
-            .packages-grid{grid-template-columns:1fr 1fr;gap:8px;}
-            .offers-title{font-size:0.88rem;}
-            .hero-title{font-size:1.4rem;}
-            .hero-subtitle{font-size:0.82rem;}
+            .topbar{padding:0 10px;height:50px;}
+            .topbar-brand{font-size:0.82rem;}
+            .prop-switch-btn{padding:4px 8px;font-size:0.7rem;}
+            .prop-switch{gap:2px;padding:2px;}
+            .lang-switch{margin-left:6px;}
+            .lang-btn{padding:3px 7px;font-size:0.65rem;}
+            .page-section{padding:8px;}
+            .cal-card{padding:6px;}
+            .form-card{padding:10px;}
+            .price-summary{padding:10px;max-width:100%;}
+            .quick-row{grid-template-columns:1fr 1fr;gap:6px;}
+            .quick-item{padding:8px;}
+            .quick-item i{font-size:0.9rem;margin-bottom:3px;}
+            .quick-item span{font-size:0.68rem;}
+            .cal-nav-btn{width:40px;height:40px;font-size:0.85rem;}
+            .cal-legend{gap:6px;}
+            .cal-legend-item{font-size:0.66rem;}
+            .cal-legend-dot{width:8px;height:8px;}
+            .packages-grid{grid-template-columns:1fr 1fr;gap:6px;}
+            .pkg-card{padding:10px 8px;}
+            .pkg-card strong{font-size:0.75rem;}
+            .pkg-card>span{font-size:0.65rem;}
+            .offers-title{font-size:0.85rem;}
+            .offer-card{min-width:170px;max-width:190px;padding:14px 12px;}
+            .offer-name{font-size:0.76rem;}
+            .offer-new{font-size:1rem;}
+            .offer-cta{padding:7px;font-size:0.7rem;}
+            .home-welcome h1{font-size:clamp(1.2rem,4vw,1.6rem);}
+            .home-welcome p{font-size:0.78rem;}
+            .rev-card{padding:14px;}
+            .rev-text{font-size:0.78rem;}
+            .promo-info-banner{padding:8px 12px;font-size:0.73rem;gap:8px;}
+            .third-night-promo{padding:10px 12px;font-size:0.73rem;gap:8px;}
+            .daypass-promo-card{padding:12px;gap:10px;}
+            .schedule-info{padding:10px 12px;}
+            .addons-coming-soon{padding:10px 12px;}
+            .vip-checker{padding:10px;}
+            .vc-input-row input{padding:8px 10px;font-size:0.82rem;}
+            .vc-btn{padding:8px 12px;font-size:0.78rem;}
+            .midweek-card h3{font-size:1rem;}
+            .midweek-card p{font-size:0.78rem;}
+            .midweek-features{gap:10px;}
+            .mw-feat{font-size:0.7rem;}
+            .mob-btn{font-size:0.55rem;padding:5px 8px;}
+            .mob-btn i{font-size:1rem;}
         }
         @media(max-width:400px){
-            .prop-card-home{height:160px;}
-            .home-photo{flex:0 0 82%;height:130px;}
-            .prop-header{gap:14px;}
-            .quick-row{grid-template-columns:1fr 1fr;gap:6px;}
-            .packages-grid{grid-template-columns:1fr;gap:8px;}
-            .prop-switch{gap:2px;padding:2px;}
-            .topbar-brand{font-size:0.8rem;}
-            .topbar{gap:6px;}
+            .prop-card-home{height:140px;}
+            .home-photos{grid-template-columns:repeat(2,1fr);}
+            .home-photo{height:75px;}
+            .quick-row{grid-template-columns:1fr 1fr;gap:5px;}
+            .packages-grid{grid-template-columns:1fr;gap:6px;}
+            .topbar-brand{font-size:0.78rem;}
+            .topbar{gap:4px;padding:0 8px;height:48px;}
+            .wa-btn{padding:6px 10px;font-size:0.72rem;}
+            .page-section{padding:6px;}
+            .form-card{padding:8px;}
+            .cal-card{padding:4px;}
+            .offer-card{min-width:155px;max-width:170px;padding:12px 10px;}
         }
 
         /* ===== LIGHTBOX ===== */
